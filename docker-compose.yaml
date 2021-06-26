@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:13
+    shm_size: "2gb"
+    environment:
+      POSTGRES_PASSWORD: pass
+      POSTGRES_USER: postgres
+    ports:
+      - "9002:5432"
+    volumes:
+      - ./dev_db_init.sql:/docker-entrypoint-initdb.d/dev_db_init.sql
+
+  redis:
+    image: redis:6.0.8-buster
+    ports:
+      - "9003:6379"
