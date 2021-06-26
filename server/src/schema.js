@@ -3,7 +3,7 @@ const { gql } = require('apollo-server');
 const typeDefs = gql`
   type CurrentLocation {
       message: String
-      timestamp: String
+      timestamp: Int
       issPosition: IssPosition
   }
 
@@ -13,7 +13,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    locations: [CurrentLocation]!
+    currentLocation: CurrentLocation!
   }
 
 `;
