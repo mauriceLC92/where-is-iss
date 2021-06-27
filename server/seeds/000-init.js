@@ -1,7 +1,7 @@
 exports.seed = async function (knex) {
-    await knex.schema.dropTableIfExists('locations');
+    await knex.schema.dropTableIfExists('location');
 
-    return knex.schema.createTable('locations', function (table) {
+    return knex.schema.createTable('location', function (table) {
         table.increments('id');
         table.string('message');
         table.integer('timestamp');

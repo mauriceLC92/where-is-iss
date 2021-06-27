@@ -8,4 +8,11 @@ module.exports = {
         lastHourLocations: (_, __, { dataSources }) =>
             dataSources.db.getLocationsInLastHour(),
     },
+    Mutation: {
+        createLocation: async (_, __, { dataSources }) => {
+            const location =
+                await dataSources.currentLocationAPI.getCurrentLocation();
+            return dataSources.db.insertLocation(location);
+        },
+    },
 };

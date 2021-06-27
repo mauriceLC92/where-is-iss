@@ -24,6 +24,18 @@ const typeDefs = gql`
         location(id: ID!): Location
         lastHourLocations: [Location]!
     }
+
+    type CreateLocationResponse {
+        id: ID!
+        message: String
+        timestamp: Int
+        latitude: String
+        longitude: String
+    }
+
+    type Mutation {
+        createLocation: CreateLocationResponse
+    }
 `;
 
 module.exports = typeDefs;

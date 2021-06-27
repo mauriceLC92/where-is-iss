@@ -2,7 +2,7 @@ const { SQLDataSource } = require('datasource-sql');
 
 class Location extends SQLDataSource {
     async getAllLocations() {
-        const locations = await this.knex.select('*').from('locations');
+        const locations = await this.knex.select('*').from('location');
         return locations.map((location) => {
             return {
                 id: location.id,
@@ -19,11 +19,33 @@ class Location extends SQLDataSource {
     }
 
     getLocationById({ locationId }) {
-        this.knex.select('*').from('locations').where({ id: locationId });
+        this.knex.select('*').from('location').where({ id: locationId });
     }
 
     getLocationsInLastHour() {
-        this.knex.select('*').from('locations');
+        this.knex.select('*').from('location');
+    }
+
+    async insertLocation(location) {
+        const { message, timestamp, issPosition } = location;
+        console.log('location', location);
+        const test = await this.knex('location')
+            .returning([
+                'id',
+                'message',
+                'timestamp',
+                // 'created_at',
+                'latitude',
+                'longitude',
+            ])
+            .insert({
+                message,
+                timestamp,
+                latitude: issPosition.latitude,
+                longitude: issPosition.longitude,
+            });
+        console.log('test', test);
+        return test[0];
     }
 }
 
