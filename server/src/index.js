@@ -13,10 +13,10 @@ const Location = require('./datasources/location');
 const knexConfig = {
     client: 'pg',
     connection: {
-        user: 'postgres',
-        password: 'pass',
-        database: 'development',
-        port: 9002,
+        user: process.env.DB_USER,
+        database: process.env.DB_DATABASE,
+        password: process.env.DB_PASSWORD,
+        port: process.env.DB_PORT,
     },
 };
 
@@ -28,7 +28,7 @@ const server = new ApolloServer({
     cache: new BaseRedisCache({
         client: new Redis({
             // host: 'redis-server',
-            port: 9003, // Redis port
+            port: process.env.REDIS_PORT, // Redis port
             // host: '127.0.0.1', // Redis host
             // family: 4, // 4 (IPv4) or 6 (IPv6)
             // password: 'auth',
