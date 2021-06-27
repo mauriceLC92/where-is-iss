@@ -28,24 +28,26 @@ class Location extends SQLDataSource {
 
     async insertLocation(location) {
         const { message, timestamp, issPosition } = location;
-        console.log('location', location);
-        const test = await this.knex('location')
-            .returning([
-                'id',
-                'message',
-                'timestamp',
-                // 'created_at',
-                'latitude',
-                'longitude',
-            ])
-            .insert({
-                message,
-                timestamp,
-                latitude: issPosition.latitude,
-                longitude: issPosition.longitude,
-            });
-        console.log('test', test);
-        return test[0];
+        try {
+            const test = await this.knex('location')
+                .returning([
+                    'id',
+                    'message',
+                    'timestamp',
+                    // 'created_at',
+                    'latitude',
+                    'longitude',
+                ])
+                .insert({
+                    message,
+                    timestamp,
+                    latitude: issPosition.latitude,
+                    longitude: issPosition.longitude,
+                });
+            return test[0];
+        } catch (err) {
+            console.log('err', err)
+        }
     }
 }
 
