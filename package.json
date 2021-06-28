@@ -1,22 +1,23 @@
 {
-  "name": "where-is-iss",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mauriceLC92/where-is-iss.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mauriceLC92/where-is-iss/issues"
-  },
-  "homepage": "https://github.com/mauriceLC92/where-is-iss#readme",
-  "devDependencies": {
-    "prettier": "2.3.2"
-  }
+    "name": "where-is-iss",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "NODE_ENV=development node server/src/index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mauriceLC92/where-is-iss.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/mauriceLC92/where-is-iss/issues"
+    },
+    "homepage": "https://github.com/mauriceLC92/where-is-iss#readme",
+    "devDependencies": {
+        "prettier": "2.3.2"
+    }
 }
