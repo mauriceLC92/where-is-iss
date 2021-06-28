@@ -1,8 +1,8 @@
 require('dotenv').config();
 
 const { ApolloServer } = require('apollo-server');
-// const { BaseRedisCache } = require('apollo-server-cache-redis');
-// const Redis = require('ioredis');
+const { BaseRedisCache } = require('apollo-server-cache-redis');
+const Redis = require('ioredis');
 
 const typeDefs = require('./schema');
 const resolvers = require('./resolvers');
@@ -11,6 +11,7 @@ const CurrentLocationAPI = require('./datasources/current-location');
 const Location = require('./datasources/location');
 
 const isDev = process.env.NODE_ENV === 'development';
+console.log('isDev', isDev);
 const knexConfig = {
     client: 'pg',
     connection: {
@@ -18,7 +19,8 @@ const knexConfig = {
         database: isDev ? process.env.DB_DATABASE_DEV : process.env.DB_DATABASE,
         password: isDev ? process.env.DB_PASSWORD_DEV : process.env.DB_PASSWORD,
         port: isDev ? process.env.DB_PORT_DEV : process.env.DB_PORT,
-        host: process.env.DB_HOST_DEV,
+        // When running locally, I need to omit these but must put back when running live
+        host: isDev ? process.env.DB_HOST_DEV : process.env.DB_HOST,
         ssl: { rejectUnauthorized: false },
     },
 };
@@ -28,23 +30,20 @@ const db = new Location(knexConfig);
 const server = new ApolloServer({
     typeDefs,
     resolvers,
-    // cache: new BaseRedisCache({
-    // client: new Redis({
-    //     host: isDev ? process.env.REDIS_HOST_DEV : null,
-    //     port: isDev ? process.env.REDIS_PORT_DEV : process.env.REDIS_PORT, // Redis port
-    //     // family: 4, // 4 (IPv4) or 6 (IPv6)
-    //     // password: isDev ? process.env.REDIS_PASSWORD_DEV : null,
-    //     connectTimeout: 10000,
-    // }),
-    // client: new Redis(
-    //     process.env.REDIS_PORT_DEV,
-    //     process.env.REDIS_HOST_DEV,
-    //     {
-    //         connectTimeout: 10000,
-    //         lazyConnect: true,
-    //     }
-    // ),
-    // }),
+    cache: new BaseRedisCache({
+        //     // client: new Redis({
+        //     //     host: isDev ? process.env.REDIS_HOST_DEV : null,
+        //     //     port: isDev ? process.env.REDIS_PORT_DEV : process.env.REDIS_PORT, // Redis port
+        //     //     // family: 4, // 4 (IPv4) or 6 (IPv6)
+        //     //     // password: isDev ? process.env.REDIS_PASSWORD_DEV : null,
+        //     //     connectTimeout: 10000,
+        //     // }),
+        client: new Redis(process.env.REDIS_URL, {
+            tls: {
+                rejectUnauthorized: false,
+            },
+        }),
+    }),
     dataSources: () => ({
         currentLocationAPI: new CurrentLocationAPI(),
         db,

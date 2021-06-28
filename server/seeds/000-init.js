@@ -7,6 +7,5 @@ exports.seed = async function (knex) {
         table.integer('timestamp');
         table.string('latitude');
         table.string('longitude');
-        table.timestamp('created_at').defaultTo(knex.fn.now());
     });
 };

@@ -1,25 +1,32 @@
 const { SQLDataSource } = require('datasource-sql');
 
+const locationMapper = (location) => {
+    return {
+        id: location.id,
+        location: {
+            message: location.message,
+            timestamp: location.timestamp,
+            issPosition: {
+                latitude: location.latitude,
+                longitude: location.longitude,
+            },
+        },
+    };
+};
+
 class Location extends SQLDataSource {
     async getAllLocations() {
         const locations = await this.knex.select('*').from('location');
-        return locations.map((location) => {
-            return {
-                id: location.id,
-                location: {
-                    message: location.message,
-                    timestamp: location.timestamp,
-                    issPosition: {
-                        latitude: location.latitude,
-                        longitude: location.longitude,
-                    },
-                },
-            };
-        });
+        return locations.map(locationMapper);
     }
 
-    getLocationById({ locationId }) {
-        this.knex.select('*').from('location').where({ id: locationId });
+    async getLocationById({ locationId }) {
+        const res = await this.knex
+            .select('*')
+            .from('location')
+            .where({ id: locationId });
+        const location = res[0];
+        return locationMapper(location);
     }
 
     getLocationsInLastHour() {
@@ -46,7 +53,7 @@ class Location extends SQLDataSource {
                 });
             return test[0];
         } catch (err) {
-            console.log('err', err)
+            console.log('err', err);
         }
     }
 }
