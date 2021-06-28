@@ -59,7 +59,7 @@ const server = new ApolloServer({
 // new Redis(
 //   "redis://username:authpassword@127.0.0.1:6380/4?allowUsernameInURI=true"
 // );
-server.listen().then(() => {
+server.listen({ port: process.env.PORT || 4000 }).then(() => {
     console.log(`
       Server is running!
       Listening on port 4000
