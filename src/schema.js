@@ -2,19 +2,19 @@ const { gql } = require('apollo-server');
 
 const typeDefs = gql`
     type CurrentLocation {
-        message: String @cacheControl(maxAge: 30)
-        timestamp: Int @cacheControl(maxAge: 30)
-        issPosition: IssPosition @cacheControl(maxAge: 30)
+        message: String @cacheControl(maxAge: 5)
+        timestamp: Int @cacheControl(maxAge: 5)
+        issPosition: IssPosition @cacheControl(maxAge: 5)
     }
 
     type IssPosition {
-        latitude: String @cacheControl(maxAge: 30)
-        longitude: String @cacheControl(maxAge: 30)
+        latitude: String @cacheControl(maxAge: 5)
+        longitude: String @cacheControl(maxAge: 5)
     }
 
     type Location {
-        id: ID! @cacheControl(maxAge: 30)
-        location: CurrentLocation @cacheControl(maxAge: 30)
+        id: ID! @cacheControl(maxAge: 5)
+        location: CurrentLocation @cacheControl(maxAge: 5)
     }
 
     type Query {
