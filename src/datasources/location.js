@@ -35,7 +35,7 @@ class Location extends SQLDataSource {
         const lastHourLocations = await this.knex
             .select('*')
             .from('location')
-            .where('timestammp', '>', anHourAgo);
+            .where('timestamp', '>', anHourAgo);
         return lastHourLocations.map(locationMapper);
     }
 
