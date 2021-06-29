@@ -36,7 +36,7 @@ class Location extends SQLDataSource {
             .select('*')
             .from('location')
             .where('timestammp', '>', anHourAgo);
-        return lastHourLocations;
+        return lastHourLocations.map(locationMapper);
     }
 
     async insertLocation(location) {
