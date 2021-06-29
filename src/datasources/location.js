@@ -29,8 +29,14 @@ class Location extends SQLDataSource {
         return locationMapper(location);
     }
 
-    getLocationsInLastHour() {
-        this.knex.select('*').from('location');
+    async getLocationsInLastHour() {
+        const HOUR = 1000 * 60 * 60;
+        const anHourAgo = parseInt(((Date.now() - HOUR) / 1000).toFixed(0));
+        const lastHourLocations = await this.knex
+            .select('*')
+            .from('location')
+            .where('timestammp', '>', anHourAgo);
+        return lastHourLocations;
     }
 
     async insertLocation(location) {
@@ -41,7 +47,6 @@ class Location extends SQLDataSource {
                     'id',
                     'message',
                     'timestamp',
-                    // 'created_at',
                     'latitude',
                     'longitude',
                 ])
